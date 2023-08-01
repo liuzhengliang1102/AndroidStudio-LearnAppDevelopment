@@ -3,6 +3,7 @@ package com.example.propertytest;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,9 @@ import java.lang.reflect.Method;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "lzl-test";
+    private static final String MODEL = "ro.product.model";
+    private static final String DEVICE = "ro.product.device";
+    private static final String VERSION_RELEASE = "ro.build.version.release";
     private String mPropertyName;
     private String mPropertyValue;
     private Button mButtonGetProperty;
@@ -33,12 +37,70 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView textView = (TextView) findViewById(R.id.textView);
+        // ro.product.model
+        TextView textView1 = (TextView) findViewById(R.id.textView1);
+        // ro.product.device
         TextView textView2 = (TextView) findViewById(R.id.textView2);
+        // ro.build.version.release
         TextView textView3 = (TextView) findViewById(R.id.textView3);
-        TextView textView_val = (TextView) findViewById(R.id.textView_val);
+        TextView textView1_val = (TextView) findViewById(R.id.textView1_val);
         TextView textView2_val = (TextView) findViewById(R.id.textView2_val);
         TextView textView3_val = (TextView) findViewById(R.id.textView3_val);
+
+        mPropertyName = textView1.getText().toString();
+        if (mPropertyName.equals(MODEL)) {
+            textView1_val.setText(Build.MODEL);
+            Log.d(TAG, "getprop " + DEVICE + " by Build.MODEL = " + Build.MODEL);
+        }
+        mPropertyName = textView2.getText().toString();
+        if (mPropertyName.equals(DEVICE)) {
+            textView2_val.setText(Build.DEVICE);
+            Log.d(TAG, "getprop " + DEVICE + " by Build.DEVICE = " + Build.DEVICE);
+        }
+        mPropertyName = textView3.getText().toString();
+        if (mPropertyName.equals(VERSION_RELEASE)) {
+            textView3_val.setText(Build.VERSION.RELEASE);
+            Log.d(TAG, "getprop " + VERSION_RELEASE + " by Build.VERSION.RELEASE = " + Build.VERSION.RELEASE);
+        }
+
+        // ro.product.model
+        TextView textView4 = (TextView) findViewById(R.id.textView4);
+        // ro.product.device
+        TextView textView5 = (TextView) findViewById(R.id.textView5);
+        // ro.build.version.release
+        TextView textView6 = (TextView) findViewById(R.id.textView6);
+        TextView textView4_val = (TextView) findViewById(R.id.textView4_val);
+        TextView textView5_val = (TextView) findViewById(R.id.textView5_val);
+        TextView textView6_val = (TextView) findViewById(R.id.textView6_val);
+        mPropertyName = textView4.getText().toString();
+        if (!mPropertyName.equals(MODEL)) {
+            mPropertyName = MODEL;
+        }
+        mPropertyValue = getProperty(mPropertyName,"unknown");
+        Log.d(TAG, mPropertyName + ": " + mPropertyValue);
+        textView4.setText(mPropertyName);
+        textView4_val.setText(mPropertyValue);
+        textView4_val.setTextColor(Color.RED);
+
+        mPropertyName = textView5.getText().toString();
+        if (!mPropertyName.equals(DEVICE)) {
+            mPropertyName = DEVICE;
+        }
+        mPropertyValue = getProperty(mPropertyName,"unknown");
+        Log.d(TAG, mPropertyName + ": " + mPropertyValue);
+        textView5.setText(mPropertyName);
+        textView5_val.setText(mPropertyValue);
+        textView5_val.setTextColor(Color.RED);
+
+        mPropertyName = textView6.getText().toString();
+        if (!mPropertyName.equals(VERSION_RELEASE)) {
+            mPropertyName = VERSION_RELEASE;
+        }
+        mPropertyValue = getProperty(mPropertyName,"unknown");
+        Log.d(TAG, mPropertyName + ": " + mPropertyValue);
+        textView6.setText(mPropertyName);
+        textView6_val.setText(mPropertyValue);
+        textView6_val.setTextColor(Color.RED);
 
         mEditTextPropertyName = (EditText) findViewById(R.id.input_prop_name);
         mEditTextPropertyValue = (EditText) findViewById(R.id.input_prop_value);
@@ -50,27 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mButtonSetProperty = (Button) findViewById(R.id.button_set);
         mButtonSetProperty.setOnClickListener(this);
-
-        mPropertyName = "ro.product.model";
-        mPropertyValue = getProperty(mPropertyName,"unknown");
-        Log.d(TAG, mPropertyName + ":" + mPropertyValue);
-        textView.setText(mPropertyName);
-        textView_val.setText(mPropertyValue);
-        textView_val.setTextColor(Color.RED);
-
-        mPropertyName = "ro.display.screen_type";
-        mPropertyValue = getProperty(mPropertyName,"unknown");
-        Log.d(TAG, mPropertyName + ":" + mPropertyValue);
-        textView2.setText(mPropertyName);
-        textView2_val.setText(mPropertyValue);
-        textView2_val.setTextColor(Color.RED);
-
-        mPropertyName = "ro.product.marketname";
-        mPropertyValue = getProperty(mPropertyName,"unknown");
-        Log.d(TAG, mPropertyName + ":" + mPropertyValue);
-        textView3.setText(mPropertyName);
-        textView3_val.setText(mPropertyValue);
-        textView3_val.setTextColor(Color.RED);
     }
 
     public static String getProperty(String key, String defaultValue) {
@@ -105,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             if (!mEditTextPropertyName.getText().toString().isEmpty()) {
                 mInputPropertyName = mEditTextPropertyName.getText().toString();
                 mPropertyValue = getProperty(mInputPropertyName,"unknown");
-                Log.d(TAG, mInputPropertyName + ":" + mPropertyValue);
+                Log.d(TAG, mInputPropertyName + ": " + mPropertyValue);
                 mTextViewGetPropertyValue.setText(mPropertyValue);
                 mColor = (onClickCount % 2 == 0) ? Color.RED : Color.BLUE;
                 mTextViewGetPropertyValue.setTextColor(mColor);

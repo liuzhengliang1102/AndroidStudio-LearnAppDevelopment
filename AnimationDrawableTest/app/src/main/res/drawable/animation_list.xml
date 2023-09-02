@@ -1,8 +1,0 @@
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
-    android:oneshot="false">
-    <item android:drawable="@drawable/fingerprint_unlock_1" android:duration="50" />
-    <item android:drawable="@drawable/fingerprint_unlock_2" android:duration="50" />
-    <item android:drawable="@drawable/fingerprint_unlock_3" android:duration="50" />
-    <item android:drawable="@drawable/fingerprint_unlock_4" android:duration="50" />
-    <item android:drawable="@drawable/fingerprint_unlock_5" android:duration="50" />
-</animation-list>
